@@ -1,0 +1,33 @@
+/* logo height trick:
+   see http://stackoverflow.com/questions/2841484/how-can-a-label-completely-fill-its-parent-td/3074320 */
+
+.buy {
+    padding: 3px;
+    line-height: 20px;
+    border: solid white 1px;
+    border-radius: 3px;
+}
+tr {
+    height: 1px;  /* logo height trick */
+}
+.table-bordered > tbody > tr > td.exchange {
+    border-right: none;
+    background-color: #fff;
+    padding: 4px 4px 4px 6px;
+    height: 100%;  /* logo height trick */
+}
+.table-bordered > tbody > tr > td.price {
+    border-left: none;
+}
+.logo {
+    height: 100%;  /* logo height trick */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.bitalo .logo { background-image: url(../img/bitalo-logo.png); }
+.bitalo .buy { background-color: #2d91da; color: #ffffff; }
+.localbitcoins .logo { background-image: url(../img/localbitcoins-logo.png); }
+.localbitcoins .buy { background-color: #f58220; color: #ffffff; }
+.bitcoinde .logo { background-image: url(../img/bitcoin_de-logo.png); }
+.bitcoinde .buy { background-color: #3b5c87; color: #cad6e3; }
