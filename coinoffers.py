@@ -1,5 +1,6 @@
 from decimal import Decimal
 import json
+from lxml import etree
 import re
 import lxml.html
 import requests
@@ -66,6 +67,17 @@ def bitcoinde():
 #         '/buy-bitcoins-online/EUR/sepa-eu-bank-transfer/.json')
 #     offers = response.json()['data']['ad_list']
 #     return [localbitcoins_convert_offer(offer) for offer in offers]
+
+
+def xpath0(tr, path):
+    try:
+        return tr.xpath(path)[0]
+    except IndexError as exc:
+        html = etree.tostring(tr,
+                              pretty_print=True, encoding=str, with_tail=False)
+        tight_html = re.sub(r'\s+\n', '\n', html)
+        raise IndexError('{}\n{}\n{}'
+                         .format(exc, path, tight_html))
 
 
 def localbitcoins_convert_offer(tr):
