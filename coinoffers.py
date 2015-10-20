@@ -121,13 +121,29 @@ def bitalo():
             for offer in offers]
 
 
+def coinmotion():
+    response = requests.get('http://coinmotion.com/rates?ajax_content=true')
+    offer = response.json()
+    return [{'exchange': 'coinmotion',
+             'price': Decimal('1.02') * Decimal(offer['sell']),
+             'max_amount': Decimal('2.0'),
+             'link': 'https://coinmotion.com/buy',
+             'seller': 'coinmotion.com'}]
+
+
+def bittilasku():
+    response = requests.get('http://www.bittimania.fi/bittilasku/')
+    doc = lxml.html.fromstring(response.text)
+    rate = xpath0(doc, '//div[@class="payment_kurssi"]//*[@class="fa fa-btc"]')
+    return [{'merchant': 'bittilasku',
+             'price': Decimal(rate.tail.split()[-1]) / Decimal('1.0125'),
+             'link': 'http://www.bittimania.fi/bittilasku/',
+             'buyer': 'bittimania.fi'}]
+
+
 def main():
-    # print localbitcoins()
-    # import sys
-    # sys.exit()
-    # from pprint import pprint
-    # pprint(bitalo())
-    unsorted_offers = bitcoinde() + localbitcoins() + bitalo()
+    unsorted_offers = bitcoinde() + localbitcoins() + bitalo() + coinmotion()\
+    # + bittilasku()  # not a seller, but a bill paying service
     offers = sorted(unsorted_offers, key=lambda offer: offer['price'])
     print(json.dumps(offers, indent=4, cls=DecimalEncoder))
 
