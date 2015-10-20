@@ -93,7 +93,7 @@ def localbitcoins_convert_offer(tr):
             'price': price,
             'max_amount': calc_limit(max_str.split()[0]),
             'min_amount': calc_limit(min_str),
-            'link': tr.xpath('.//a[@class="btn megabutton"]/@href')[0],
+            'link': xpath0(tr, './/a[@class="btn btn-default megabutton"]/@href'),
             'seller': tr.xpath('td[@class="column-user"]/a/text()')[0]}
 
 
