@@ -129,7 +129,7 @@ def coinmotion():
     response = requests.get('http://coinmotion.com/rates?ajax_content=true')
     offer = response.json()
     return [{'exchange': 'coinmotion',
-             'price': Decimal('1.02') * Decimal(offer['sell']),
+             'price': Decimal('1.02') * Decimal(offer['btc']['sell']),
              'max_amount': Decimal('2.0'),
              'link': 'https://coinmotion.com/buy',
              'seller': 'coinmotion.com'}]
