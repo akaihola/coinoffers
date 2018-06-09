@@ -111,20 +111,6 @@ def localbitcoins():
     return [localbitcoins_convert_offer(tr) for tr in offer_trs]
 
 
-def bitalo():
-    response = requests.post('https://bitalo.com/stream',
-                             data={'currency': 'EUR'})
-    offers = response.json()['sell_offers']
-    return [{'exchange': 'bitalo',
-             'price': Decimal(offer['price']),
-             'max_amount': Decimal(offer['amount']),
-             'min_amount': Decimal('0.05'),
-             'link': ('https://www.bitalo.com/exchange/buy/{}'
-                      .format(offer['id'])),
-             'seller': offer['username']}
-            for offer in offers]
-
-
 def coinmotion():
     response = requests.get('http://coinmotion.com/rates?ajax_content=true')
     offer = response.json()
@@ -146,7 +132,7 @@ def bittilasku():
 
 
 def main():
-    unsorted_offers = bitcoinde() + localbitcoins() + bitalo() + coinmotion()\
+    unsorted_offers = bitcoinde() + localbitcoins() + coinmotion()\
     # + bittilasku()  # not a seller, but a bill paying service
     offers = sorted(unsorted_offers, key=lambda offer: offer['price'])
     print(json.dumps(offers, indent=4, cls=DecimalEncoder))
