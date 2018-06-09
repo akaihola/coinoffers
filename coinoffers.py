@@ -81,12 +81,16 @@ def xpath0(tr, path):
 
 
 def localbitcoins_convert_offer(tr):
-    price = Decimal(tr.xpath('td[@class="column-price"]/text()')[0].split()[0])
+    # e.g. '\n  \n  6,504.50 EUR\n  \n  ':
+    price_element_text = tr.xpath('td[@class="column-price"]/text()')[0]
+    # ...becomes '6504.50':
+    first_price_value = price_element_text.split()[0].replace(',', '')
+    price = Decimal(first_price_value)
     min_str, max_str = (tr.xpath('td[@class="column-limit"]/text()')[0]
                         .split('-'))
 
     def calc_limit(limit_str):
-        eur_limit = Decimal(limit_str)
+        eur_limit = Decimal(limit_str.replace(',', ''))
         return (eur_limit / price).quantize(Decimal('1.000'))
 
     return {'exchange': 'localbitcoins',
